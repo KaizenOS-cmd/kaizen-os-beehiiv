@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HRIS Audit OS Playbook | Kaizen OS</title>
+  <meta name="description" content="The complete audit framework for HRIS professionals. 8 domains, PDC model, 5-level maturity scoring, and a 90-day remediation roadmap. Built by an operator, for operators." />
+  <meta property="og:title" content="HRIS Audit OS Playbook | Kaizen OS" />
+  <meta property="og:description" content="Stop guessing. Start auditing with a system. 8 domains. 5 maturity levels. One playbook." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://kaizenos-cmd.github.io/kaizen-os-beehiiv/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --void: #0E0E0F;
+      --cyan: #00D4FF;
+      --green: #00FF94;
+      --mist: #F4F6FA;
+      --navy: #1A1A2E;
+      --gray: #888;
+      --cyan-glow: rgba(0, 212, 255, 0.12);
+      --green-glow: rgba(0, 255, 148, 0.10);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--void);
+      color: var(--mist);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* âââ UTILITY âââ */
+    .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+    .accent { color: var(--cyan); }
+    .green { color: var(--green); }
+    .serif { font-family: 'Libre Baskerville', Georgia, serif; }
+    .small { font-size: 0.85rem; color: var(--gray); }
+    .text-center { text-align: center; }
+
+    /* âââ GRID BACKGROUND âââ */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    section { position: relative; z-index: 1; }
+
+    /* âââ HERO âââ */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      border: 1px solid rgba(0,212,255,0.3);
+      border-radius: 100px;
+      padding: 6px 18px;
+      margin-bottom: 32px;
+      background: var(--cyan-glow);
+    }
+    .hero h1 {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.25;
+      color: #fff;
+      max-width: 720px;
+      margin: 0 auto 24px;
+    }
+    .hero h1 span { color: var(--cyan); }
+    .hero p {
+      font-size: 1.15rem;
+      color: #b0b8c4;
+      max-width: 580px;
+      margin: 0 auto 40px;
+    }
+    .hero-cta {
+      display: inline-block;
+      background: var(--green);
+      color: var(--void);
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 16px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,255,148,0.25);
+    }
+    .hero-sub {
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: var(--gray);
+    }
+
+    /* âââ PROBLEM âââ */
+    .problem {
+      padding: 80px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .problem h2 {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      text-align: center;
+      margin-bottom: 48px;
+      color: #fff;
+    }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .problem-card {
+      background: var(--navy);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 28px;
+    }
+    .problem-card .num {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 12px;
+    }
+    .problem-card h3 {
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .problem-card p { font-size: 0.92rem; color: #9ca3af; }
+
+    /* âââ FRAMEWORK âââ */
+    .framework {
+      padding: 80px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .framework h2 {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      text-align: center;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .framework > .container > p {
+      text-align: center;
+      color: #9ca3af;
+      max-width: 600px;
+      margin: 0 auto 48px;
+    }
+    .pdc-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .pdc-card {
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .pdc-card.prevent { background: linear-gradient(135deg, rgba(0,212,255,0.08), rgba(0,212,255,0.02)); border-color: rgba(0,212,255,0.2); }
+    .pdc-card.detect  { background: linear-gradient(135deg, rgba(0,255,148,0.08), rgba(0,255,148,0.02)); border-color: rgba(0,255,148,0.2); }
+    .pdc-card.correct  { background: linear-gradient(135deg, rgba(255,165,0,0.08), rgba(255,165,0,0.02)); border-color: rgba(255,165,0,0.2); }
+    .pdc-card .icon { font-size: 2rem; margin-bottom: 12px; }
+    .pdc-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+    .pdc-card.prevent h3 { color: var(--cyan); }
+    .pdc-card.detect h3 { color: var(--green); }
+    .pdc-card.correct h3 { color: #FFA500; }
+    .pdc-card p { font-size: 0.9rem; color: #9ca3af; }
+
+    /* âââ DOMAINS âââ */
+    .domains {
+      padding: 80px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .domains h2 {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      text-align: center;
+      margin-bottom: 16px;
+      color: #fff;
+    }
+    .domains > .container > p.subtitle {
+      text-align: center;
+      color: #9ca3af;
+      max-width: 560px;
+      margin: 0 auto 48px;
+    }
+    .domain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .domain-item {
+      background: var(--navy);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 22px;
+      transition: border-color 0.2s;
+    }
+    .domain-item:hover { border-color: rgba(0,212,255,0.3); }
+    .domain-item .d-num {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 8px;
+    }
+    .domain-item h4 { font-size: 0.95rem; font-weight: 600; color: #fff; margin-bottom: 6px; }
+    .domain-item p { font-size: 0.82rem; color: #9ca3af; line-height: 1.5; }
+
+    /* âââ MATURITY âââ */
+    .maturity {
+      padding: 80px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .maturity h2 {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      text-align: center;
+      margin-bottom: 48px;
+      color: #fff;
+    }
+    .maturity-bar {
+      display: flex;
+      gap: 4px;
+      max-width: 700px;
+      margin: 0 auto 40px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .maturity-bar .level {
+      flex: 1;
+      padding: 20px 12px;
+      text-align: center;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--void);
+    }
+    .maturity-bar .l1 { background: #ef4444; }
+    .maturity-bar .l2 { background: #f97316; }
+    .maturity-bar .l3 { background: #eab308; }
+    .maturity-bar .l4 { background: #22c55e; }
+    .maturity-bar .l5 { background: var(--cyan); }
+    .maturity-labels {
+      display: flex;
+      gap: 4px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .maturity-labels span {
+      flex: 1;
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--gray);
+    }
+
+    /* âââ WHAT'S INSIDE âââ */
+    .inside {
+      padding: 80px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .inside h2 {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      text-align: center;
+      margin-bottom: 48px;
+      color: #fff;
+    }
+    .inside-list {
+      max-width: 640px;
+      margin: 0 auto;
+      list-style: none;
+    }
+    .inside-list li {
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      font-size: 0.95rem;
+    }
+    .inside-list .check {
+      color: var(--green);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* âââ WHO âââ */
+    .who {
+      padding: 80px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .who h2 {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      text-align: center;
+      margin-bottom: 48px;
+      color: #fff;
+    }
+    .who-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .who-card {
+      background: var(--navy);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 24px;
+    }
+    .who-card h4 { font-size: 0.95rem; font-weight: 600; color: var(--cyan); margin-bottom: 8px; }
+    .who-card p { font-size: 0.88rem; color: #9ca3af; }
+
+    /* âââ CTA / WAITLIST âââ */
+    .waitlist {
+      padding: 100px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+    }
+    .waitlist h2 {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .waitlist h2 span { color: var(--cyan); }
+    .waitlist > .container > p {
+      color: #9ca3af;
+      max-width: 500px;
+      margin: 0 auto 36px;
+    }
+    .waitlist-form {
+      display: flex;
+      gap: 12px;
+      max-width: 480px;
+      margin: 0 auto 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .waitlist-form input[type="email"] {
+      flex: 1;
+      min-width: 240px;
+      padding: 14px 20px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: var(--navy);
+      color: var(--mist);
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .waitlist-form input[type="email"]:focus { border-color: var(--cyan); }
+    .waitlist-form input[type="email"]::placeholder { color: #666; }
+    .waitlist-form button {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 8px;
+      background: var(--green);
+      color: var(--void);
+      font-weight: 700;
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .waitlist-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0,255,148,0.2);
+    }
+    .waitlist .note { font-size: 0.78rem; color: var(--gray); margin-top: 8px; }
+    .success-msg {
+      display: none;
+      color: var(--green);
+      font-weight: 600;
+      margin-top: 16px;
+    }
+
+    /* âââ QUOTE âââ */
+    .quote-section {
+      padding: 60px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .quote-block {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 40px;
+    }
+    .quote-block blockquote {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--mist);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .quote-block cite {
+      font-style: normal;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: var(--cyan);
+    }
+
+    /* âââ FOOTER âââ */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      text-align: center;
+    }
+    footer .brand {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    footer .tagline {
+      font-size: 0.82rem;
+      color: var(--gray);
+      font-style: italic;
+    }
+    footer .links {
+      margin-top: 16px;
+    }
+    footer .links a {
+      color: var(--cyan);
+      text-decoration: none;
+      font-size: 0.82rem;
+      margin: 0 12px;
+    }
+    footer .links a:hover { text-decoration: underline; }
+
+    /* âââ RESPONSIVE âââ */
+    @media (max-width: 640px) {
+      .hero { padding: 72px 0 60px; }
+      .hero-cta { width: 100%; text-align: center; }
+      .maturity-bar .level { padding: 14px 6px; font-size: 0.6rem; }
+      .waitlist-form { flex-direction: column; }
+      .waitlist-form button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- âââ HERO âââ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">Kaizen OS</div>
+    <h1>The <span>HRIS Audit OS</span> Playbook</h1>
+    <p>Stop guessing what's broken. Audit your HRIS environment with a system: 8 domains, the PDC control model, 5-level maturity scoring, and a 90-day remediation roadmap.</p>
+    <a href="#waitlist" class="hero-cta">GET THE PLAYBOOK</a>
+    <p class="hero-sub">Built by an operator. For operators. No fluff.</p>
+  </div>
+</section>
+
+<!-- âââ PROBLEM âââ -->
+<section class="problem">
+  <div class="container">
+    <h2>Most HRIS audits fail for the same 4 reasons</h2>
+    <div class="problem-grid">
+      <div class="problem-card">
+        <div class="num">01</div>
+        <h3>No demand governance</h3>
+        <p>Everything is urgent. Nothing is prioritized by rule. Whoever escalates loudest gets the work done.</p>
+      </div>
+      <div class="problem-card">
+        <div class="num">02</div>
+        <h3>No ownership model</h3>
+        <p>HR, IT, and the vendor all own part of the system. Which means no one truly owns it. Decisions stall.</p>
+      </div>
+      <div class="problem-card">
+        <div class="num">03</div>
+        <h3>Configuration without control</h3>
+        <p>"Just make the change." No design authority. No standards. Security sprawl and reporting breaks follow.</p>
+      </div>
+      <div class="problem-card">
+        <div class="num">04</div>
+        <h3>No system of orchestration</h3>
+        <p>Workday. JSM. SharePoint. Email. They all exist. None of them connect. Fragmentation, not a system.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- âââ QUOTE âââ -->
+<section class="quote-section">
+  <div class="container">
+    <div class="quote-block">
+      <blockquote>"Tools don't fail. Operating models do."</blockquote>
+      <cite>Yinka &mdash; Kaizen OS</cite>
+    </div>
+  </div>
+</section>
+
+<!-- âââ PDC FRAMEWORK âââ -->
+<section class="framework">
+  <div class="container">
+    <h2>Built on the PDC Control Model</h2>
+    <p>Every control in your HRIS environment falls into one of three categories. The Playbook maps all of them.</p>
+    <div class="pdc-row">
+      <div class="pdc-card prevent">
+        <div class="icon">&#x1F6E1;</div>
+        <h3>Prevent</h3>
+        <p>Stop problems before they happen. Governance frameworks, access controls, configuration standards, and design authority.</p>
+      </div>
+      <div class="pdc-card detect">
+        <div class="icon">&#x1F50D;</div>
+        <h3>Detect</h3>
+        <p>Find problems that slip through. Audit triggers, reconciliation cycles, data quality checks, and exception monitoring.</p>
+      </div>
+      <div class="pdc-card correct">
+        <div class="icon">&#x1F527;</div>
+        <h3>Correct</h3>
+        <p>Fix what's broken, systematically. Remediation playbooks, escalation paths, control-failure decision trees, and RACI clarity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- âââ 8 DOMAINS âââ -->
+<section class="domains">
+  <div class="container">
+    <h2>8 Audit Domains. Complete Coverage.</h2>
+    <p class="subtitle">Each domain includes a maturity rubric, control checklist, PDC mapping, and remediation actions.</p>
+    <div class="domain-grid">
+      <div class="domain-item">
+        <div class="d-num">Domain 01</div>
+        <h4>Data Governance</h4>
+        <p>Ownership rules, entry standards, correction triggers, and master data integrity.</p>
+      </div>
+      <div class="domain-item">
+        <div class="d-num">Domain 02</div>
+        <h4>Access &amp; Security</h4>
+        <p>Role-based access, review cadence, segregation of duties, and privilege escalation controls.</p>
+      </div>
+      <div class="domain-item">
+        <div class="d-num">Domain 03</div>
+        <h4>Configuration Management</h4>
+        <p>Design authority, change approval, tenant standards, and environment governance.</p>
+      </div>
+      <div class="domain-item">
+        <div class="d-num">Domain 04</div>
+        <h4>Integration &amp; Interfaces</h4>
+        <p>EIB management, API governance, error handling, and data flow mapping.</p>
+      </div>
+      <div class="domain-item">
+        <div class="d-num">Domain 05</div>
+        <h4>Reporting &amp; Analytics</h4>
+        <p>Report ownership, calculated field governance, dashboard standards, and data lineage.</p>
+      </div>
+      <div class="domain-item">
+        <div class="d-num">Domain 06</div>
+        <h4>Demand &amp; Intake</h4>
+        <p>Triage rules, prioritisation logic, SLA frameworks, and service catalogue governance.</p>
+      </div>
+      <div class="domain-item">
+        <div class="d-num">Domain 07</div>
+        <h4>Compliance &amp; Audit</h4>
+        <p>Audit log triggers, regulatory mapping, SOX readiness, and control testing schedules.</p>
+      </div>
+      <div class="domain-item">
+        <div class="d-num">Domain 08</div>
+        <h4>Operating Model</h4>
+        <p>RACI clarity, team structures, vendor management, and continuous improvement cadence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- âââ MATURITY MODEL âââ -->
+<section class="maturity">
+  <div class="container">
+    <h2>5-Level Maturity Scoring</h2>
+    <div class="maturity-bar">
+      <div class="level l1">1</div>
+      <div class="level l2">2</div>
+      <div class="level l3">3</div>
+      <div class="level l4">4</div>
+      <div class="level l5">5</div>
+    </div>
+    <div class="maturity-labels">
+      <span>Ad Hoc</span>
+      <span>Reactive</span>
+      <span>Defined</span>
+      <span>Managed</span>
+      <span>Optimised</span>
+    </div>
+  </div>
+</section>
+
+<!-- âââ WHAT'S INSIDE âââ -->
+<section class="inside">
+  <div class="container">
+    <h2>What's Inside the Playbook</h2>
+    <ul class="inside-list">
+      <li><span class="check">&#10003;</span><span>The PDC Control Model &mdash; a 3-layer framework to classify every HRIS control as Prevent, Detect, or Correct</span></li>
+      <li><span class="check">&#10003;</span><span>8 complete audit domains with maturity rubrics, checklists, and PDC mappings</span></li>
+      <li><span class="check">&#10003;</span><span>5-level maturity scoring system to benchmark your current state and set targets</span></li>
+      <li><span class="check">&#10003;</span><span>Control-failure decision trees for every domain &mdash; what to do when a control breaks</span></li>
+      <li><span class="check">&#10003;</span><span>RACI model for every audit activity &mdash; no more ambiguity about who owns what</span></li>
+      <li><span class="check">&#10003;</span><span>90-day remediation roadmap to turn findings into a sequenced execution plan</span></li>
+      <li><span class="check">&#10003;</span><span>Field-level tiering framework (Tier 1 / Tier 2) for data governance prioritisation</span></li>
+      <li><span class="check">&#10003;</span><span>Platform-agnostic &mdash; works with Workday, SAP SuccessFactors, Oracle HCM, or any HRIS</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- âââ WHO IT'S FOR âââ -->
+<section class="who">
+  <div class="container">
+    <h2>Built for Operators</h2>
+    <div class="who-grid">
+      <div class="who-card">
+        <h4>HRIS Professionals</h4>
+        <p>You manage the platform daily but lack a structured audit framework. This gives you one.</p>
+      </div>
+      <div class="who-card">
+        <h4>HR Directors &amp; VPs</h4>
+        <p>You need visibility into system health without digging into configuration. The maturity scores give you that.</p>
+      </div>
+      <div class="who-card">
+        <h4>Shared Services Leaders</h4>
+        <p>You orchestrate across HR, IT, and vendors. The RACI and operating model domain are built for you.</p>
+      </div>
+      <div class="who-card">
+        <h4>HR Tech Consultants</h4>
+        <p>You need a repeatable audit methodology to use across clients. This is it &mdash; packaged and ready.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- âââ WAITLIST CTA âââ -->
+<section class="waitlist" id="waitlist">
+  <div class="container">
+    <h2>Get the <span>Playbook</span></h2>
+    <p>Drop your email to get instant access to the HRIS Audit OS Playbook and start auditing with a system.</p>
+    <form class="waitlist-form" id="waitlist-form" action="https://formspree.io/f/REPLACE_WITH_FORMSPREE_ENDPOINT" method="POST">
+      <input type="email" name="email" placeholder="you@company.com" required />
+      <input type="hidden" name="_subject" value="Kaizen OS Playbook Waitlist" />
+      <button type="submit">GET ACCESS</button>
+    </form>
+    <p class="note">No spam. Unsubscribe anytime. Operator-level content only.</p>
+    <p class="success-msg" id="success-msg">You're in. Check your inbox for access.</p>
+  </div>
+</section>
+
+<!-- âââ FOOTER âââ -->
+<footer>
+  <div class="container">
+    <div class="brand">KAIZEN OS</div>
+    <div class="tagline">Turn your job into a system.</div>
+    <div class="links">
+      <a href="https://kaizenOS.beehiiv.com/subscribe">Newsletter</a>
+      <a href="https://www.linkedin.com/in/yinka-kaizen-os/">LinkedIn</a>
+      <a href="https://kaizenos.gumroad.com">Products</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Handle form submission with success message
+  const form = document.getElementById('waitlist-form');
+  const successMsg = document.getElementById('success-msg');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.style.display = 'none';
+        successMsg.style.display = 'block';
+      } else {
+        alert('Something went wrong. Please try again.');
+      }
+    } catch {
+      alert('Network error. Please try again.');
+    }
+  });
+</script>
+
+</body>
+</html>
